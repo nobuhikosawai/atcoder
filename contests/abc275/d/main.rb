@@ -1,13 +1,18 @@
 input = gets.to_i
 
-def calc(num)
+def calc(num, cache)
   if num == 0
     return 1
   end
 
-  return calc((num / 2).floor) + calc((num / 3).floor)
+  if cache[num]
+    return cache[num]
+  end
+
+  res = calc((num / 2).floor, cache) + calc((num / 3).floor, cache)
+  cache[num] = res
 end
 
-res = calc(input)
+res = calc(input, {})
 
 p res

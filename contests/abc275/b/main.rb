@@ -7,7 +7,7 @@ d = input[3].to_i
 e = input[4].to_i
 f = input[5].to_i
 
-def get_res(num) 
+def get_res(num)
   return num % 998244353
 end
 
