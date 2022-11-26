@@ -4,37 +4,12 @@ const inputs = fs.readFileSync('/dev/stdin', 'utf-8').split('\n');
 const numOp = 3 + Number(inputs[2]);
 
 const nums = inputs[1].split(' ').map((i: string) => Number(i));
-const numMap = new Map<number, number>();
-let isFilled = false;
-let filledNum: number | null = null;
 
-const getNumber = (i: number): number => {
-  if (!isFilled) {
-    return nums[i];
-  }
-  return numMap.has(i) ? numMap.get(i)! : filledNum!;
-}
-
-const addNumber = (i: number, v: number) => {
-  if (!isFilled) {
-    nums[i]+= v;
-    return;
-  }
-
-  if (numMap.has(i)) {
-    let value = numMap.get(i)!;
-    value += v;
-    numMap.set(i, value);
-  } else {
-    numMap.set(i, filledNum! + v);
-  }
-}
-
-const fillNumber = (v: number) => {
-  isFilled = true;
-  filledNum = v;
-  numMap.clear();
-}
+const diffMap = new Map<number, number>();
+nums.map((n, i) => {
+  diffMap.set(i, n);
+})
+let filledNum = 0;
 
 for (let i = 3; i < numOp; i++) {
   const query = inputs[i].split(' ');
@@ -42,18 +17,20 @@ for (let i = 3; i < numOp; i++) {
   switch(query[0]) {
     case '1': {
       const v = Number(query[1]);
-      fillNumber(v);
+      diffMap.clear();
+      filledNum = v;
       break;
     }
     case '2': {
       const i = Number(query[1]) - 1;
       const v = Number(query[2]);
-      addNumber(i, v);
+      const value = diffMap.get(i) || 0;
+      diffMap.set(i, value + v);
       break;
     }
     case '3': {
       const i = Number(query[1]) - 1;
-      console.log(getNumber(i));
+      console.log(filledNum + (diffMap.get(i) || 0));
       break;
     }
   }
