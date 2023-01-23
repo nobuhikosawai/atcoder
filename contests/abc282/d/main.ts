@@ -15,6 +15,7 @@ const c2 = (n: number) => {
 };
 
 let ans = c2(n) - m;
+const cvs: [number, number] = [0, 0];
 
 const dfs = (idx: number, nc: number = 0): boolean => {
   if (c[idx] !== -1) {
@@ -36,7 +37,6 @@ const c: number[] = Array.from<number>({ length: n }).fill(-1);
 
 for (let i = 0; i < n; i++) {
   if (c[i] === -1) {
-    const cvs: [number, number] = [0, 0];
     if (!dfs(i)) {
       ans = 0;
       break;
