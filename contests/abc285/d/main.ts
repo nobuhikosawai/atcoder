@@ -2,35 +2,33 @@ import * as fs from "fs";
 
 const inputs = fs.readFileSync("/dev/stdin", "utf-8").trim().split("\n");
 
-const nodes: { [key: string]: string } = {};
-const vis: { [key: string]: boolean } = {};
+function main() {
+  const node: { [key: string]: string } = {};
 
-for (let i = 1; i < inputs.length; i++) {
-  const [l, r] = inputs[i].split(" ");
+  for (let i = 1; i < inputs.length; i++) {
+    const [l, r] = inputs[i].split(" ");
 
-  nodes[l] = r;
-  vis[l] = false;
+    node[l] = r;
+  }
+
+  const set = new Set<string>();
+  for (const key of Object.keys(node)) {
+    let ns = key;
+    while (!set.has(key)) {
+      if (!ns) {
+        set.add(key);
+        break;
+      }
+
+      ns = node[ns];
+
+      if (ns === key) {
+        console.log("No");
+        return;
+      }
+    }
+  }
+  console.log("Yes");
 }
 
-const dfs = (node: string | undefined): boolean => {
-  if (!node) {
-    return true;
-  }
-
-  if (vis[node]) {
-    return false;
-  }
-
-  vis[node] = true;
-  return dfs(nodes[node]);
-};
-
-let cannot = false;
-for (const key of Object.keys(nodes)) {
-  if (!dfs(key)) {
-    cannot = true;
-    break;
-  }
-}
-
-console.log(cannot ? "No" : "Yes");
+main();
