@@ -6,7 +6,4 @@
     "types": ["node"]
   },
   "exclude": ["node_modules"],
-  "ts-node": {
-    "swc": true
-  }
 }
