@@ -18,4 +18,10 @@ class BigIntMath {
 
     return newtonIteration(value, 1n);
   }
+  static abs(x: bigint): bigint {
+    if (x < 0n) {
+      return -1n * x;
+    }
+    return x;
+  }
 }
